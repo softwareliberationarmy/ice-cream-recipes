@@ -1,4 +1,4 @@
-# Ice Cream Recipes
+# Ice Cream Recipes (generated using Copilot)
 
 A comprehensive application for managing and sharing ice cream recipes.
 
