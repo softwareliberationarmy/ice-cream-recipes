@@ -1,0 +1,5 @@
+{
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    "Generate a brief commit message summarizing the changes, then two line breaks, then a more detailed bulleted list of the changes."
+  ]
+}
