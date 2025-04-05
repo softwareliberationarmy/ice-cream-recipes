@@ -1,5 +1,15 @@
 {
   "github.copilot.chat.commitMessageGeneration.instructions": [
-    "Generate a brief commit message summarizing the changes, then two line breaks, then a more detailed bulleted list of the changes."
+    {
+      "text": "Generate a brief commit message summarizing the changes, then two line breaks, then a more detailed bulleted list of the changes."
+    }
+  ],
+  "github.copilot.chat.codeGeneration.instructions": [
+    {
+      "file": ".copilot/project/spec.md"
+    },
+    {
+      "file": ".copilot/coding-standards/react-typescript.md"
+    }
   ]
 }
