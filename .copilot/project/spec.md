@@ -23,7 +23,11 @@ A web application to store, search, and manage ice cream recipes aimed primarily
 
 - **Recipe Attributes:**
   - **Name:** Recipe title.
-  - **Source:** Recipe provenance (e.g., book details, page number).
+  - **Source:**
+    - References a source entity with:
+      - **Name:** Name of the source (e.g., cookbook title, website, family member).
+      - **Has Page Numbers:** Boolean indicating whether the source uses page numbers.
+    - **Page Number:** Optional page number reference, applicable only when the source has page numbers.
   - **Ingredients:**
     - Each ingredient must store:
       - **Quantity:** Supports whole numbers, decimals, and fractions (e.g., "1/2", "1 1/2").
@@ -51,7 +55,10 @@ A web application to store, search, and manage ice cream recipes aimed primarily
 - **Ingredient Search:**
   - Return recipes containing a specified ingredient.
   - Support filtering by multiple ingredients simultaneously.
-  - Enable filtering based on ingredient quantity comparisons (e.g., “recipes with less than 2 cups of milk”), with automatic unit conversions.
+  - Enable filtering based on ingredient quantity comparisons (e.g., "recipes with less than 2 cups of milk"), with automatic unit conversions.
+- **Source Search:**
+  - Filter recipes by specific sources.
+  - Provide autocomplete functionality when entering source names.
 - **Tag Search:**
   - Free-form tagging with auto-complete to minimize duplicates.
   - Searches by tags must return recipes matching **all** selected tags.
@@ -71,6 +78,11 @@ A web application to store, search, and manage ice cream recipes aimed primarily
   - Use Serilog to log application events, with logs forwarded to a Seq server.
 - **Operational Mode:**
   - Designed as a personal single-user application, with potential future support for user authentication and multi-user access.
+- **Source Management:**
+  - CRUD operations for sources.
+  - Ability to merge duplicate sources.
+  - Statistics on recipe count per source.
+  - Option to mark favorite or frequently used sources.
 
 ---
 
@@ -89,12 +101,12 @@ A web application to store, search, and manage ice cream recipes aimed primarily
 - **Framework:** ASP.NET Core (.NET).
 - **Database:** PostgreSQL.
 - **Core API Features:**
-  - RESTful endpoints for recipes, ingredients, comments, and tags.
+  - RESTful endpoints for sources, recipes, ingredients, comments, and tags.
   - Implement unit conversion logic across supported measurement units.
   - Integrate a flexible ingredient parser for multi-line inputs.
   - Include Swagger/OpenAPI support for interactive API documentation.
 - **Logging and Error Handling:**
-  - Use Serilog with Seq integration for centralized logging.
+  - Use Serilog to log application events, with logs forwarded to a Seq server.
   - Provide robust error handling with clear, informative HTTP responses, especially for parsing errors.
 
 ### 3.3 Frontend (React)
@@ -103,10 +115,11 @@ A web application to store, search, and manage ice cream recipes aimed primarily
 - **Design Library:** Beer CSS.
 - **UI/UX Requirements:**
   - Fully responsive and mobile-friendly design.
-  - User interface for managing recipes (list, add, edit, view).
+  - User interface for managing sources (list, add, edit, delete).
+  - User interface for managing recipes (list, add, edit, view) with source selection.
   - Multi-line text box for ingredient input that displays a live preview of parsed results and supports inline error correction.
 - **Search & Filtering UI:**
-  - Controls for filtering by ingredients (including quantity comparisons) and tags.
+  - Controls for filtering by ingredients (including quantity comparisons), sources, and tags.
   - Sorting and pagination controls (50 recipes per page).
 
 ### 3.4 Containerization & CI/CD
@@ -204,6 +217,6 @@ A web application to store, search, and manage ice cream recipes aimed primarily
 
 ## 7. Summary
 
-The **ice-cream-recipes** web app is a monorepo-based, containerized solution with a .NET backend and a React frontend. Key features include robust recipe management with advanced ingredient parsing (supporting flexible formats and fractional quantities), comprehensive search and filter capabilities (by ingredients, tags, recipe source), and full CRUD for recipes and comments. The app will integrate full automated testing using TDD, CI/CD with GitHub Actions, centralized logging via Serilog and Seq, as well as responsive design using Beer CSS. This specification provides the necessary details for a developer to begin immediate implementation.
+The **ice-cream-recipes** web app is a monorepo-based, containerized solution with a .NET backend and a React frontend. Key features include robust recipe management with advanced ingredient parsing (supporting flexible formats and fractional quantities), comprehensive search and filter capabilities (by ingredients, sources, tags, recipe source), and full CRUD for recipes, comments, and sources. The app will integrate full automated testing using TDD, CI/CD with GitHub Actions, centralized logging via Serilog and Seq, as well as responsive design using Beer CSS. This specification provides the necessary details for a developer to begin immediate implementation.
 
 (created using Copilot o3-mini)
