@@ -1,0 +1,17 @@
+:root {
+  --primary: #ff9800;
+  --on-primary: #ffffff;
+  --primary-container: #ffddb0;
+  --on-primary-container: #2a1800;
+  --secondary: #795648;
+  --on-secondary: #ffffff;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
