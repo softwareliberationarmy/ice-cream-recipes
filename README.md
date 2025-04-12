@@ -1,76 +1,251 @@
-# Ice Cream Recipes (generated using Copilot)
+# Ice Cream Recipes
 
-A comprehensive application for managing and sharing ice cream recipes.
+A comprehensive web application for ice cream enthusiasts to store, search, and manage their favorite ice cream recipes with advanced ingredient management, tagging, and recipe organization capabilities.
+
+## Project Overview
+
+This application allows users to:
+
+- Create, read, update, and delete ice cream recipes
+- Add and manage ingredient lists with flexible parsing
+- Search recipes by ingredients, including quantity-based filtering
+- Organize recipes with free-form tags and source information
+- Import and export recipes in JSON format
+- Sort, filter, and paginate through the recipe collection
+
+The project is built with a .NET backend API and React frontend, containerized using Docker for easy deployment.
 
 ## Project Structure
 
 This project is organized as a monorepo with the following structure:
 
-- `/backend` - .NET Core API for managing ice cream recipes data
-- `/frontend` - React application for the user interface
+- `/backend` - .NET Core API with PostgreSQL database
+  - `/src` - API implementation and business logic
+  - `/tests` - Backend unit and integration tests
+  - `/Database` - Database initialization scripts and documentation
+- `/frontend` - React application built with Vite and TypeScript
+  - `/src` - React components and application logic
+  - `/public` - Static assets
 
-## Getting Started
+## Prerequisites
 
-### Prerequisites
-
-- Docker Desktop
+- Docker Desktop (for containerized deployment)
 - Docker Compose
-- .NET Core SDK 8.0 or higher (for development)
-- Node.js 20.x or higher
-- Yarn
+- .NET SDK 8.0 or higher (for backend development)
+- Node.js 20.x or higher (for frontend development)
+- Yarn package manager
+- PostgreSQL (optional for local database development)
+- Git
 
-### Running the Application
+## Setup Instructions
 
-The easiest way to run the entire application is using Docker Compose, which will start all services:
+### Option 1: Running with Docker (Recommended for first run)
 
-```bash
-# Start all services
-docker-compose up
+The easiest way to get started is using Docker Compose:
 
-# Or run in detached mode
-docker-compose up -d
-```
+1. Clone the repository:
 
-Once running, you can access:
+   ```bash
+   git clone <repository-url>
+   cd ice-cream-recipes
+   ```
 
-- Frontend application: http://localhost:3000
-- Backend API: http://localhost:8080
-- Seq logging interface: http://localhost:5341
-- PostgreSQL (internal): Port 5432
+2. Start all services:
 
-To stop all services:
+   ```bash
+   docker-compose up -d
+   ```
 
-```bash
-docker-compose down
-```
+3. Access the application:
 
-### Development Setup
+   - Frontend UI: http://localhost:3000
+   - Backend API: http://localhost:5000
+   - API Documentation (Swagger): http://localhost:5000/swagger
+   - Seq logging interface: http://localhost:5341
 
-For local development, you can run each component separately:
+4. To stop all services:
+   ```bash
+   docker-compose down
+   ```
+
+### Option 2: Local Development Setup
 
 #### Backend Development
 
-```bash
-cd backend
-dotnet build
-dotnet run --project src/IceCreamRecipes.API/IceCreamRecipes.API.csproj
-```
+1. Navigate to the backend directory:
+
+   ```bash
+   cd backend
+   ```
+
+2. Start the PostgreSQL and Seq containers:
+
+   ```bash
+   cd Database
+   docker-compose up -d
+   cd ..
+   ```
+
+3. Restore and build the solution:
+
+   ```bash
+   dotnet restore
+   dotnet build
+   ```
+
+4. Run the API:
+
+   ```bash
+   dotnet run --project src/IceCreamRecipes.API/IceCreamRecipes.API.csproj
+   ```
+
+5. The API will be available at:
+   - API: http://localhost:8080
+   - Swagger documentation: http://localhost:8080/swagger
 
 #### Frontend Development
 
+1. Navigate to the frontend directory:
+
+   ```bash
+   cd frontend
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   yarn install
+   ```
+
+3. Start development server:
+
+   ```bash
+   yarn dev
+   ```
+
+4. The development server will be available at:
+   - http://localhost:5173 (default Vite port)
+
+## Development Workflow
+
+### Backend Development
+
+1. Make API changes in the appropriate controllers and models
+2. Run tests: `dotnet test`
+3. Start the API locally for development or use Docker
+4. Check Seq logs at http://localhost:5341 for debugging
+
+### Frontend Development
+
+1. Create/modify React components following project standards:
+
+   - Use function components (not arrow functions)
+   - Create interfaces for component props
+   - Place test files alongside components
+   - Use custom hooks for complex logic
+
+2. Run tests:
+
+   ```bash
+   yarn test
+   ```
+
+3. Build for production:
+   ```bash
+   yarn build
+   ```
+
+### Making Changes to the Database
+
+1. Add your migration scripts to `/backend/Database`
+2. If needed, update the `InitialSchema.sql` file
+3. Restart PostgreSQL container to apply changes:
+   ```bash
+   docker-compose down postgres
+   docker-compose up -d postgres
+   ```
+
+## Testing Instructions
+
+### Running Backend Tests
+
 ```bash
-cd frontend
-yarn install
-yarn dev
+cd backend
+dotnet test
 ```
 
-## Features
+### Running Frontend Tests
 
-- Browse ice cream recipes
-- Search by ingredients
-- Filter by categories
-- Create and save your own ice cream recipes
-- Rate and comment on recipes
+```bash
+cd frontend
+yarn test
+```
+
+### Running End-to-End Tests
+
+```bash
+cd frontend
+yarn test:e2e
+```
+
+## Docker Usage Information
+
+### Rebuilding Containers After Changes
+
+```bash
+# Rebuild a specific service
+docker-compose build frontend
+docker-compose build backend
+
+# Rebuild and restart all services
+docker-compose up --build -d
+```
+
+### Accessing Container Logs
+
+```bash
+# View logs for all containers
+docker-compose logs
+
+# View logs for a specific container
+docker-compose logs frontend
+docker-compose logs backend
+
+# Follow logs in real-time
+docker-compose logs -f
+```
+
+### Database Access
+
+The PostgreSQL database is accessible:
+
+- From inside containers: `postgres:5432`
+- From the host machine: `localhost:5432`
+- Connection string: `Host=localhost;Database=ice_cream_recipes;Username=icecream;Password=icecream_pass`
+
+### Container Management
+
+```bash
+# View running containers
+docker-compose ps
+
+# Stop all containers
+docker-compose down
+
+# Stop a specific container
+docker-compose stop frontend
+
+# Remove volumes (will delete database data)
+docker-compose down -v
+```
+
+## Contributing
+
+1. Create a feature branch from `main`
+2. Make your changes following project standards
+3. Write tests for your changes
+4. Ensure all tests pass
+5. Submit a pull request
 
 ## License
 
