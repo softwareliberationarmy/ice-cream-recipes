@@ -5,15 +5,16 @@ using Serilog.Events;
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure Serilog
-Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Debug()
-    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+builder.Host.UseSerilog((context, services, configuration) => configuration
+    .ReadFrom.Configuration(context.Configuration)
+    .ReadFrom.Services(services)
     .Enrich.FromLogContext()
+    .Enrich.WithMachineName()
+    .Enrich.WithEnvironmentName()
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
     .WriteTo.Console()
     .WriteTo.Seq("http://seq:5341")
-    .CreateLogger();
-
-builder.Host.UseSerilog();
+    .WriteTo.File("logs/ice-cream-recipes-.log", rollingInterval: RollingInterval.Day));
 
 // Add services to the container.
 builder.Services.AddControllers();
