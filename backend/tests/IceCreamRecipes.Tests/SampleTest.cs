@@ -1,3 +1,4 @@
+using FluentAssertions;
 using Xunit;
 
 namespace IceCreamRecipes.Tests;
@@ -13,6 +14,6 @@ public class SampleTest
         var actual = true;
 
         // Assert
-        Assert.Equal(expected, actual);
+        actual.Should().Be(expected);
     }
 }
