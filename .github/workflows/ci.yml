@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+        cache: 'yarn'
+        cache-dependency-path: frontend/yarn.lock
+
+    # Backend build and test
+    - name: Restore backend dependencies
+      run: dotnet restore backend/IceCreamRecipes.sln
+
+    - name: Build backend
+      run: dotnet build backend/IceCreamRecipes.sln --configuration Release --no-restore
+
+    - name: Test backend
+      run: dotnet test backend/IceCreamRecipes.sln --configuration Release --no-build
+
+    # Frontend build and test
+    - name: Install frontend dependencies
+      working-directory: frontend
+      run: yarn install --frozen-lockfile
+
+    - name: Build frontend
+      working-directory: frontend
+      run: yarn build
+
+    - name: Test frontend
+      working-directory: frontend
+      run: yarn test --passWithNoTests
+
+    - name: Build completed
+      run: echo "✅ Build and tests completed successfully!"
